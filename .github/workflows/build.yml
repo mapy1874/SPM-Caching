@@ -12,7 +12,7 @@ jobs:
         id: packages-cache
         with:
           path: ~/Library/Developer/Xcode/DerivedData/Example*/SourcePackages/
-          key: ${{ runner.os }}-spm-${{ hashFiles('Example.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-spm-
       - name: Build
