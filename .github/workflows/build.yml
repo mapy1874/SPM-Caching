@@ -11,7 +11,7 @@ jobs:
         uses: actions/cache@v3
         id: packages-cache
         with:
-          path: ~/Library/Developer/Xcode/DerivedData/Example*/SourcePackages/
+          path: ~/Library/Developer/Xcode/DerivedData/Example*/
           key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-spm-
