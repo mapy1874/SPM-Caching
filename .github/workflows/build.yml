@@ -7,15 +7,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cache packages
-        uses: actions/cache@v3
-        id: packages-cache
+      - uses: irgaly/xcode-cache@v1
         with:
-          path: ~/Library/Developer/Xcode/DerivedData/Example*/
-          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-
+          key: xcode-cache-deriveddata-${{ github.workflow }}-${{ github.sha }}
+          restore-keys: xcode-cache-deriveddata-${{ github.workflow }}-
       - name: Build
         run: fastlane build
-        env:
-          HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
