@@ -1,5 +1,5 @@
 name: Build
-on: [push, workflow_dispatch]
+on: [workflow_dispatch, pull_request, push]
 
 jobs:
   build:
@@ -7,18 +7,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cache packages
-        uses: actions/cache@v3
-        id: packages-cache
+      - uses: irgaly/xcode-cache@v1
+        id: xcode-cache
         with:
-          path: |
-            packages_cache/artifacts
-            packages_cache/checkouts
-            packages_cache/workspace_state.json
-          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-packages-
+          key: xcode-cache-deriveddata-${{ github.workflow }}-${{ github.sha }}
+          restore-keys: xcode-cache-deriveddata-${{ github.workflow }}-
       - name: Build
         run: fastlane build
         env:
-          HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
+          HAS_PACKAGES_CACHE_HIT: ${{ steps.xcode-cache.outputs.swiftpm-restored == 'true' }}

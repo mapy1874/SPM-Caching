@@ -15,16 +15,14 @@
 
 default_platform(:ios)
 
-ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "180"
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "190"
 
 platform :ios do
   desc "Build"
   lane :build do
-    packages_path = "#{File.expand_path("..", Dir.pwd)}/packages_cache"
     scan(
       build_for_testing: true,
       scheme: "Example",
-      cloned_source_packages_path: packages_path,
       disable_package_automatic_updates: true,
       skip_package_dependencies_resolution: ENV["HAS_PACKAGES_CACHE_HIT"],
     )
